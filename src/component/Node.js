@@ -12,7 +12,9 @@ const Node = ({isStart, isEnd,isWall,row,col}) => {
   :""
 
   return (
-    <div className={`node ${classes}`} id={`node-${row}-${col}`}></div>
+    <div className={`node ${classes}`} id={`node-${row}-${col}`}>
+      
+    </div>
   )
 }
 

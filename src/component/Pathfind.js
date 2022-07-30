@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Node from "./Node.js";
-import astar from "../astarAlgorithm/astar.js";
+
 import "./Pathfind.css";
 import Astar from "../astarAlgorithm/astar.js";
 
@@ -27,15 +27,15 @@ const Pathfind = () => {
     for (let i = 0; i < rows; i++) {
       grid[i] = new Array(rows);
     }
-
     createSpot(grid);
-
     setGrid(grid);
-
     addNeighbours(grid);
 
     const startNode = grid[NODE_START_ROW][NODE_START_COL];
     const endNode = grid[NODE_END_ROW][NODE_END_COL];
+
+
+
     let path = Astar(startNode, endNode);
     startNode.isWall =false
     endNode.isWall = false
@@ -72,6 +72,7 @@ const Pathfind = () => {
     this.h = 0;
     this.neighbours = [];
     this.isWall = false
+    
     if(Math.random(1)<0.2){
       this.isWall = true
     }
@@ -137,9 +138,10 @@ const Pathfind = () => {
 
   return (
     <div className="wrapper">
-    <h1>Pathfind Component</h1>
-      {gridwithNode}
-    <button onClick={visualizePath}>Visualize Path</button>  
+
+    <div className="heading"><h1>Pathfind Component</h1></div>
+    <div className="grid">{gridwithNode}</div> 
+    <div><button className="btn btn-outline-dark" onClick={visualizePath}>Visualize Path</button></div>
     
     </div>
     
