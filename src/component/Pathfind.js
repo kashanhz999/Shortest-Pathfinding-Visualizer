@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import Node from "./Node.js";
 
 import "./Pathfind.css";
-import Astar from "../astarAlgorithm/astar.js";
+import Astar from "../Algorithms/astar.js";
 
-const cols = 25;
-const rows = 10;
+const cols = 40;
+const rows = 12;
 
 const NODE_START_ROW = 0;
 const NODE_START_COL = 0;
@@ -35,12 +35,13 @@ const Pathfind = () => {
     const endNode = grid[NODE_END_ROW][NODE_END_COL];
 
 
-
     let path = Astar(startNode, endNode);
-    startNode.isWall =false
+
+    startNode.isWall = false
     endNode.isWall = false
     setPath(path.path);
     setVisitedNodes(path.visitedNodes)
+
   };
 
   // Creates the Spot
@@ -72,42 +73,50 @@ const Pathfind = () => {
     this.h = 0;
     this.neighbours = [];
     this.isWall = false
-    
-    if(Math.random(1)<0.2){
+
+    if (Math.random(1) < 0.2) {
       this.isWall = true
     }
     this.previous = undefined;
     this.addneighbours = function (grid) {
       let i = this.x;
       let j = this.y;
-      if (i > 0) this.neighbours.push(grid[i - 1][j]);
-      if (i < rows - 1) this.neighbours.push(grid[i + 1][j]);
-      if (j > 0) this.neighbours.push(grid[i][j - 1]);
-      if (j < cols - 1) this.neighbours.push(grid[i][j + 1]);
+      if (i > 0) 
+        this.neighbours.push(grid[i - 1][j]);
+      
+      if (i < rows - 1) 
+        this.neighbours.push(grid[i + 1][j]);
+      
+      if (j > 0) 
+        this.neighbours.push(grid[i][j - 1]);
+      
+      if (j < cols - 1) 
+        this.neighbours.push(grid[i][j + 1]);
+      
     };
   }
 
   // Grid with Node
   const gridwithNode = (
-    <div>
-      {Grid.map((row, rowIndex) => {
+    <div> {
+      Grid.map((row, rowIndex) => {
         return (
-          <div key={rowIndex} className="rowWrapper">
-            {row.map((col, colIndex) => {
-              const { isStart, isEnd, isWall } = col;
-              return <Node
-                key={colIndex}
+          <div key={rowIndex}
+            className="rowWrapper">
+            {
+            row.map((col, colIndex) => {
+              const {isStart, isEnd, isWall} = col;
+              return <Node key={colIndex}
                 isStart={isStart}
                 isEnd={isEnd}
                 row={rowIndex}
                 col={colIndex}
-                isWall = {isWall}
-              />;
-            })}
-          </div>
+                isWall={isWall}/>;
+            })
+          } </div>
         );
-      })}
-    </div>
+      })
+    } </div>
   );
 
   console.log(Path);
@@ -116,7 +125,11 @@ const Pathfind = () => {
     for (let i = 0; i < shortestPathNodes.length; i++) {
       setTimeout(() => {
         const node = shortestPathNodes[i];
-        document.getElementById(`node-${node.x}-${node.y}`).className = "node node-shortest-path";
+        document.getElementById(`node-${
+          node.x
+        }-${
+          node.y
+        }`).className = "node node-shortest-path";
       }, 10 * i);
     }
   }
@@ -130,21 +143,41 @@ const Pathfind = () => {
       } else {
         setTimeout(() => {
           const node = VisitedNodes[i];
-          document.getElementById(`node-${node.x}-${node.y}`).className = 'node node-visited';
-        },20*i)
+          document.getElementById(`node-${
+            node.x
+          }-${
+            node.y
+          }`).className = 'node node-visited';
+        }, 20 * i)
       }
     }
+  }
+
+  const reset = () => {
+    window.location.reload(false)
   }
 
   return (
     <div className="wrapper">
 
-    <div className="heading"><h1>Pathfind Component</h1></div>
-    <div className="grid">{gridwithNode}</div> 
-    <div><button className="btn btn-outline-dark" onClick={visualizePath}>Visualize Path</button></div>
-    
+      <div className="heading">
+        <h1>Pathfinding Visualizer</h1>
+      </div>
+
+      <div className="grid">
+        {gridwithNode}</div>
+      <div className="button">
+        <span>
+          <button className="btn btn-outline-dark btn1 "
+            onClick={visualizePath}><b>VISUALIZE A*</b></button>
+        </span>
+        <span>
+          <button className="btn btn-outline-dark btn3 "
+            onClick={reset}><b>RESET BLOCKS</b></button>
+        </span>
+      </div>
     </div>
-    
+
   );
 };
 
